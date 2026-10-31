@@ -1,0 +1,13 @@
+name: tests
+on: [push, pull_request]
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      # TensorFlow is skipped in CI; tests/test_models.py uses importorskip.
+      - run: pip install numpy pandas scikit-learn matplotlib joblib rasterio geopandas shapely pytest
+      - run: pytest -q
